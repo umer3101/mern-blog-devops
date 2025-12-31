@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  backend:
+    image: mern-backend
+    container_name: mern-backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./Backend/.env
+    networks:
+      - mern-network
+
+  frontend:
+    image: mern-frontend
+    container_name: mern-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://backend:5000
+    networks:
+      - mern-network
+
+networks:
+  mern-network:
+    driver: bridge
